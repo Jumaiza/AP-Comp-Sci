@@ -1,56 +1,74 @@
 
 class BankAccount {
-	
+
 	public static int numAcc = 0;
-	
+
 	private String name = "Zaid Abu Jumaiza";
 	private double balance = 56.32;
-	private int password = 1379;
+	private int pinNum = 1379;
 	private boolean isLocked = false;
 
-public BankAccount(){
-	numAcc++;
-}
+	public BankAccount() {
+		numAcc++;
+	}
 
-public BankAccount(String name, double balance, int password, boolean isLocked){
-	this.name = name;
-	this.balance = balance;
-	this.password = password;
-	numAcc++;
-}
+	public BankAccount(String name, double balance, int pinNum) {
+		this.name = name;
+		this.balance = balance;
+		this.pinNum = pinNum;
+		numAcc++;
+	}
 
-public String transferAccount(String name){
-	String oldName = name;
-	this.name = name;
-	return oldName;
-}
+	public String transferAccount(String name) {
+		String oldName = this.name;
+		this.name = name;
+		return oldName;
+	}
 
-public void deposit(double x){
-	if(x>0.0)
-		balance+=x;
-	if(isLocked==true && balance >= 0.0)
-		isLocked = false;
-}
-
-public void withdraw(double x){
-	if(isLocked == false){
-		if(x>0.0){
-			balance-=x;
-		}if(balance<0.0){
-			balance-=30;
-			isLocked = true;
-		}
-		else{
-			System.out.println("You gotta withdraw something nigga");
+	public void deposit(double x) {
+		if (x > 0.0) {
+			this.balance += x;
+			if (this.balance >= 0 && isLocked == true) {
+				this.isLocked = false;
+			}
 		}
 	}
-	else{
-		System.out.println("Yo shit locked my nigga");
+
+	public void withdraw(double x) {
+		if (this.isLocked == false && x > 0.0) {
+			this.balance -= x;
+			if (this.balance < 0) {
+				this.balance -= 30;
+				this.isLocked = true;
+			}
+		}
 	}
-		
-}
 
+	public String getName() {
+		return this.name;
+	}
 
+	public double getBalance() {
+		return this.balance;
+	}
 
+	public int getPinNum() {
+		return this.pinNum;
+	}
 
+	public boolean getIsLocked() {
+		return this.isLocked;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public void setPinNum(int pinNum) {
+		this.pinNum = pinNum;
+	}
 }
