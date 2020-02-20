@@ -30,13 +30,16 @@ public class Main {
 
 	public void login() {
 		if (BankAccount.numAcc > 0) {
-			System.out.println("Enter your username and password.");
+			boolean logged = false;
+			System.out.println("Enter your username");
 			String username = bot.nextLine();
+			System.out.println("Enter your password");
 			int password = bot.nextInt();
+			bot.nextLine();
 			for (int i = 0; i < bAccounts.length; i++) {
 				if (bAccounts[i] != null) {
 					if (username.equals(bAccounts[i].getName()) && password == bAccounts[i].getPinNum()) {
-						int j = BankAccount.numAcc;
+						logged = true;
 						loggedin(bAccounts[i]);
 					}
 				}
@@ -48,10 +51,13 @@ public class Main {
 
 	public void create() {
 		if (BankAccount.numAcc <= 4) {
-			System.out.println("Enter a username, password, and deposit amount");
+			System.out.println("Enter a username");
 			String username = bot.nextLine();
+			System.out.println("Enter a password");
 			int password = bot.nextInt();
+			System.out.println("Enter a deposit amount");
 			double deposit = bot.nextDouble();
+			bot.nextLine();
 			bAccounts[BankAccount.numAcc] = new BankAccount(username, deposit, password);
 			System.out.println(BankAccount.numAcc + " Account(s) Created");
 		} else {
@@ -60,18 +66,23 @@ public class Main {
 	}
 
 	public void delete() {
-		System.out.println("Enter your username and password");
+		System.out.println("Enter your username");
 		String username = bot.nextLine();
+		System.out.println("Enter your password");
 		int password = bot.nextInt();
-		if (username == bAccounts[0].getName() && password == bAccounts[0].getPinNum()) {
-
-		} else {
-			System.out.println("Sorry we cannot find your account");
+		bot.nextLine();
+		for (int i = 0; i < BankAccount.numAcc; i++) {
+			if (username == bAccounts[i].getName() && password == bAccounts[i].getPinNum()) {
+				bAccounts[i] = null;
+			} else {
+				System.out.println("Sorry we cannot find your account");
+			}
 		}
 	}
 
 	public void list() {
 		for (int i = 0; i < BankAccount.numAcc; i++) {
+			System.out.println("\nHere is the list of accounts");
 			System.out.println(bAccounts[i].getName());
 		}
 	}
@@ -79,7 +90,8 @@ public class Main {
 	public void loggedin(BankAccount x) {
 		String userInput = "";
 		while (!userInput.equals("4")) {
-			System.out.println("Enter a Number for what option you would like to perform!\n1.Get Balance\n2.Deposit\n3.Withdraw\n4.Exit");
+			System.out.println(
+					"Enter a Number for what option you would like to perform!\n1.Get Balance\n2.Deposit\n3.Withdraw\n4.Exit");
 			userInput = bot.nextLine();
 			if (userInput.equals("1")) {
 				System.out.println(x.getBalance());
@@ -94,12 +106,14 @@ public class Main {
 	public void deposit(BankAccount x) {
 		System.out.println("How much do you want to deposit");
 		double amount = bot.nextDouble();
+		bot.nextLine();
 		x.deposit(amount);
 	}
 
 	public void withdraw(BankAccount x) {
 		System.out.println("How much do you want to withdraw");
 		double amount = bot.nextDouble();
+		bot.nextLine();
 		if (x.getIsLocked() == true) {
 			System.out.println("Sorry your account is locked");
 		} else {
