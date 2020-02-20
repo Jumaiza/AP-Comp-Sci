@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
 	static Scanner bot = new Scanner(System.in);
-	static BankAccount[] bAccount = new BankAccount[5];
+	static BankAccount[] bAccounts = new BankAccount[5];
 
 	public static void main(String[] args) {
 
@@ -13,29 +13,36 @@ public class Main {
 
 	public void mainMenu() {
 		String userInput = "";
-		while (!userInput.equals("Exit")) {
+		while (!userInput.equals("5")) {
 			printHeader();
 			userInput = bot.nextLine();
-			if (userInput.equals("Log In")) {
+			if (userInput.equals("1")) {
 				login();
-			} else if (userInput.equals("List")) {
+			} else if (userInput.equals("2")) {
 				list();
-			} else if (userInput.equals("Create")) {
+			} else if (userInput.equals("3")) {
 				create();
+			} else if (userInput.equals("4")) {
+				delete();
 			}
 		}
 	}
 
 	public void login() {
-		System.out.println("Enter your username and password.");
-		String username = bot.nextLine();
-		int password = bot.nextInt();
-		if (username.equals(bAccount[BankAccount.numAcc - 1].getName())
-				&& password == bAccount[BankAccount.numAcc - 1].getPinNum()) {
-			int i = BankAccount.numAcc;
-			loggedin(bAccount[i]);
+		if (BankAccount.numAcc > 0) {
+			System.out.println("Enter your username and password.");
+			String username = bot.nextLine();
+			int password = bot.nextInt();
+			for (int i = 0; i < bAccounts.length; i++) {
+				if (bAccounts[i] != null) {
+					if (username.equals(bAccounts[i].getName()) && password == bAccounts[i].getPinNum()) {
+						int j = BankAccount.numAcc;
+						loggedin(bAccounts[i]);
+					}
+				}
+			}
 		} else {
-			System.out.println("Sorry we cannot find your account");
+			System.out.println("There are no accounts created");
 		}
 	}
 
@@ -45,10 +52,10 @@ public class Main {
 			String username = bot.nextLine();
 			int password = bot.nextInt();
 			double deposit = bot.nextDouble();
-			bAccount[BankAccount.numAcc] = new BankAccount(username, deposit, password);
-			System.out.println(BankAccount.numAcc);
+			bAccounts[BankAccount.numAcc] = new BankAccount(username, deposit, password);
+			System.out.println(BankAccount.numAcc + " Account(s) Created");
 		} else {
-			System.out.println("You cannot make more accounts");
+			System.out.println("You cannot make any more accounts");
 		}
 	}
 
@@ -56,8 +63,7 @@ public class Main {
 		System.out.println("Enter your username and password");
 		String username = bot.nextLine();
 		int password = bot.nextInt();
-		if (username == bAccount[BankAccount.numAcc].getName()
-				&& password == bAccount[BankAccount.numAcc].getPinNum()) {
+		if (username == bAccounts[0].getName() && password == bAccounts[0].getPinNum()) {
 
 		} else {
 			System.out.println("Sorry we cannot find your account");
@@ -66,20 +72,20 @@ public class Main {
 
 	public void list() {
 		for (int i = 0; i < BankAccount.numAcc; i++) {
-			System.out.println(bAccount[i].getName());
+			System.out.println(bAccounts[i].getName());
 		}
 	}
 
 	public void loggedin(BankAccount x) {
 		String userInput = "";
-		while (!userInput.equals("Exit")) {
-			System.out.println("Get Balance\nDeposit\nWithdraw\nExit");
+		while (!userInput.equals("4")) {
+			System.out.println("Enter a Number for what option you would like to perform!\n1.Get Balance\n2.Deposit\n3.Withdraw\n4.Exit");
 			userInput = bot.nextLine();
-			if (userInput.equals("Get Balance")) {
+			if (userInput.equals("1")) {
 				System.out.println(x.getBalance());
-			} else if (userInput.equals("Deposit")) {
+			} else if (userInput.equals("2")) {
 				deposit(x);
-			} else if (userInput.equals("Withdraw")) {
+			} else if (userInput.equals("3")) {
 				withdraw(x);
 			}
 		}
@@ -104,8 +110,7 @@ public class Main {
 	private void printHeader() {
 		System.out.println(
 				"\nWelcome to Los Santos Bank! Please choose an option from below! Input what number option you would like to perform!");
-		System.out.print("1.Log In\n2.Create\n3.List\n4.Delete\n5.Exit\n");
+		System.out.print("1.Log In\n2.List\n3.Create\n4.Delete\n5.Exit\n");
 
 	}
-
 }
